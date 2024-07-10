@@ -1,4 +1,4 @@
 # stage_one
-A simple shopping app where users can add items to cart and order these items. Users can also remove items they have no intention of ordering anymore. 
+A simple shopping app that implements Timbu API. Users can view products,their names, images, description, and price. Hooks riverpod is used for state management
 
-https://appetize.io/embed/b_irut63hecwqeavxsjwi7ldpsie
+https://appetize.io/embed/b_ttbwadbhkr3rismsqqlojoejii
