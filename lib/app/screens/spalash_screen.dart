@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stage_one/app/constants/shared.dart';
+import 'package:stage_one/app/screens/home_screen.dart';
+import 'package:stage_one/app/screens/welcome_screen.dart';
 import 'package:stage_one/providers/product_providers.dart';
-import 'package:stage_one/product_screen.dart';
+import 'package:stage_one/app/screens/product_screen.dart';
+import 'package:stage_one/providers/user_provider.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -18,8 +22,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     Timer(
       const Duration(seconds: 3),
       () async {
-     await ref.read(productsProvider.notifier).fetchProduct();
-     Navigator.of(context).pushReplacementNamed(ProductScreen.routeName);
+        bool seenIntro = await Shared.getSeenIntro() ?? false;
+        if (seenIntro) {
+          await ref.read(productsProvider.notifier).fetchProduct();
+          await ref.read(userProvider.notifier).setUserDetails();
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        } else {
+          await Shared.setSeenIntro(true);
+          Navigator.of(context).pushReplacementNamed(
+            WelcomeScreen.routeName,
+          );
+        }
+        
+        
       },
     );
     super.initState();

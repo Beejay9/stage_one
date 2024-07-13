@@ -8,12 +8,13 @@ class ProductRepository extends ChangeNotifier {
   List<dynamic> selectedProducts = [];
   bool isLoading = false;
   bool fetchData = false;
+  List cartProduct = [];
   Future<void> fetchProduct() async {
     try {
       isLoading = true;
-      const apiKey = '*********************************';
-      const apiId = '******************';
-      const organizationId = '******************';
+      const apiKey = '68b414f58e8b488885a93b29eb78ff9320240710151345626512';
+      const apiId = 'CGL0MHNKC6994BN';
+      const organizationId = '7d9356c8bd3f4b3c9c47fab30da9ef8f';
       final url = Uri.parse(
         'https://api.timbu.cloud/products?organization_id=$organizationId&reverse_sort=false&page=1&size=10&Appid=$apiId&Apikey=$apiKey',
       );
