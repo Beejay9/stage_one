@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:stage_one/app/constants/app_colors.dart';
 import 'package:stage_one/app/constants/app_text_style.dart';
@@ -15,6 +16,9 @@ class CartScreenItem extends StatelessWidget {
     required this.price,
     required this.quantity,
     required this.size,
+    required this.onDecrease,
+    required this.onIncrease,
+    required this.onRemove,
   });
   final String name;
   final Color color;
@@ -22,6 +26,9 @@ class CartScreenItem extends StatelessWidget {
   final double price;
   final int quantity;
   final int size;
+  final void Function()? onDecrease;
+  final void Function()? onIncrease;
+  final void Function()? onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +63,16 @@ class CartScreenItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gap(12.h),
-              Text(
-                name,
-                style: AppTextStyle.medium(
-                  color: AppColors.mainTextColor,
-                  fontSize: 16.sp,
-                  
+              SizedBox(
+                width: 0.5.sw,
+                child: Text(
+                  name,
+                  style: AppTextStyle.medium(
+                    color: AppColors.mainTextColor,
+                    fontSize: 16.sp,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
               Gap(10.h),
               Row(
@@ -109,7 +118,10 @@ class CartScreenItem extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.remove),
+                        GestureDetector(
+                          onTap: onDecrease,
+                          child: Icon(Icons.remove),
+                        ),
                         Text(
                           '$quantity',
                           style: AppTextStyle.regular(
@@ -117,7 +129,13 @@ class CartScreenItem extends StatelessWidget {
                             fontSize: 14.sp,
                           ),
                         ),
-                        Icon(Icons.add, weight: 0.5,),
+                        GestureDetector(
+                          onTap: onIncrease,
+                          child: Icon(
+                            Icons.add,
+                            weight: 0.5,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -133,7 +151,10 @@ class CartScreenItem extends StatelessWidget {
               )
             ],
           ),
-          Icon(Icons.cancel_outlined)
+          GestureDetector(
+            onTap: onRemove,
+            child: SvgPicture.asset('assets/svg/cancel.svg'),
+          )
         ],
       ),
     );

@@ -280,10 +280,13 @@ class ProductScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            MainButton(
-              child: Text('View more'),
-              onPressed: () {},
-              width: 0.2.sw,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical:20, horizontal: 100.w,),
+              child: MainButton(
+                child: Text('View more', style: AppTextStyle.medium(color: Colors.white),),
+                onPressed: () {},
+                width: 200,
+              ),
             ),
             // Wrap(
             //   alignment: WrapAlignment.start,

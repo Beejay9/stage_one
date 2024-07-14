@@ -12,15 +12,20 @@ import 'package:stage_one/app/widget/cartscreen_item.dart';
 import 'package:stage_one/providers/cart_provider.dart';
 import 'package:stage_one/providers/product_providers.dart';
 
-class CartScreen extends ConsumerWidget {
+class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
   static const routeName = '/cartScreen';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    
+  ConsumerState<ConsumerStatefulWidget> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends ConsumerState<CartScreen> {
+  int itemValue = 0;
+  @override
+  Widget build(BuildContext context) {
     final cart = ref.read(cartProvider.notifier);
-final cartItems = cart.cartFootwears;
+    final cartItems = cart.cartFootwears;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -42,25 +47,65 @@ final cartItems = cart.cartFootwears;
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: cartItems.isEmpty
-                ? const Center(
-                    child: Text(
-                      'Your bag is empty, add items!',
-                      style: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                : ListView.builder(
-                  itemCount: cartItems.values.toList().length,
-                  itemBuilder: (context, index) => CartScreenItem(
-                    name: cartItems.values.toList()[index].name,
-                    color: cartItems.values.toList()[index].color,
-                    imageUrl:'${cartItems.values.toList()[index].imageUrl}',
-                    price: cartItems.values.toList()[index].price,
-                    quantity: cartItems.values.toList()[index].quantity,
-                    size: cartItems.values.toList()[index].size,
-                    
-                  ),
-                ),
+                    ? const Center(
+                        child: Text(
+                          'Your bag is empty, add items!',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: cartItems.values.toList().length,
+                        itemBuilder: (context, index) => CartScreenItem(
+                          onDecrease: () {
+                            if (itemValue == 0) {
+                              return;
+                            }
+                            itemValue =
+                                cartItems.values.toList()[index].quantity;
+                            setState(() {
+                              itemValue--;
+                            });
+
+                            cart.removeSingleItem(
+                              '${cartItems.values.toList()[index].id}',
+                            );
+                          },
+                          onIncrease: () {
+                            itemValue =
+                                cartItems.values.toList()[index].quantity;
+                            if (cartItems.values.toList()[index].quantity ==
+                                0) {
+                              return;
+                            }
+                            setState(() {
+                              itemValue++;
+                            });
+
+                            cart.addToCart(
+                              '${cartItems.values.toList()[index].id}',
+                              '${cartItems.values.toList()[index].name}',
+                              itemValue,
+                              cartItems.values.toList()[index].color,
+                              'http://api.timbu.cloud/images/${cartItems.values.toList()[index].imageUrl}',
+                              cartItems.values.toList()[index].size,
+                              cartItems.values.toList()[index].price,
+                            );
+                          },
+                          onRemove: () {
+                            itemValue = cartItems.values.toList()[index].quantity;
+                            cart.removeItem(
+                                '${cartItems.values.toList()[index].id}');
+                          },
+                          name: cartItems.values.toList()[index].name,
+                          color: cartItems.values.toList()[index].color,
+                          imageUrl:
+                              '${cartItems.values.toList()[index].imageUrl}',
+                          price: cartItems.values.toList()[index].price,
+                          quantity: cartItems.values.toList()[index].quantity,
+                          size: cartItems.values.toList()[index].size,
+                        ),
+                      ),
               ),
             ),
             Padding(

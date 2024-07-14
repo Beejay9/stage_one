@@ -7,7 +7,7 @@ class CartItem {
   final String imageUrl;
   final Color color;
   final double price;
-  final int quantity;
+  int quantity;
 
   CartItem({
     required this.id,
