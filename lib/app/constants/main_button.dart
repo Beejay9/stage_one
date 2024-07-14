@@ -8,11 +8,15 @@ class MainButton extends StatelessWidget {
     required this.child,
     required this.onPressed,
     required this.width,
+    this.backgroundColor,
+    this.foregroundColor,
   });
 
   final void Function()? onPressed;
   final Widget child;
   final double width;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +28,8 @@ class MainButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15).r,
         ),
-        backgroundColor: AppColors.primaryColor,
-        foregroundColor: AppColors.whiteColor,
+        backgroundColor: backgroundColor ?? AppColors.primaryColor,
+        foregroundColor: foregroundColor ?? AppColors.whiteColor,
         // elevation: 5,
       ),
       child: child,

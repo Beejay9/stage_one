@@ -16,14 +16,13 @@ import 'package:stage_one/providers/user_provider.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
-   static const routeName = '/checkoutScreen';
+  static const routeName = '/checkoutScreen';
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CheckoutScreenState();
 }
 
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
-
   @override
   Widget build(BuildContext context) {
     final cart = ref.read(cartProvider.notifier);
@@ -38,7 +37,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       'address': '',
     };
 
-     int itemValue = 0;
+    int itemValue = 0;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -66,44 +65,41 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     itemCount: cartItems.values.toList().length,
                     itemBuilder: (context, index) => CartScreenItem(
                       onDecrease: () {
-                            if (itemValue == 0) {
-                              return;
-                            }
-                            itemValue =
-                                cartItems.values.toList()[index].quantity;
-                            setState(() {
-                              itemValue--;
-                            });
+                        if (itemValue == 0) {
+                          return;
+                        }
+                        itemValue = cartItems.values.toList()[index].quantity;
+                        setState(() {
+                          itemValue--;
+                        });
 
-                            cart.removeSingleItem(
-                              '${cartItems.values.toList()[index].id}',
-                            );
-                          },
-                          onIncrease: () {
-                            itemValue =
-                                cartItems.values.toList()[index].quantity;
-                            if (cartItems.values.toList()[index].quantity ==
-                                0) {
-                              return;
-                            }
-                            setState(() {
-                              itemValue++;
-                            });
+                        cart.removeSingleItem(
+                          '${cartItems.values.toList()[index].id}',
+                        );
+                      },
+                      onIncrease: () {
+                        itemValue = cartItems.values.toList()[index].quantity;
+                        if (cartItems.values.toList()[index].quantity == 0) {
+                          return;
+                        }
+                        setState(() {
+                          itemValue++;
+                        });
 
-                            cart.addToCart(
-                              '${cartItems.values.toList()[index].id}',
-                              '${cartItems.values.toList()[index].name}',
-                              cartItems.values.toList()[index].quantity,
-                              cartItems.values.toList()[index].color,
-                              'http://api.timbu.cloud/images/${cartItems.values.toList()[index].imageUrl}',
-                              cartItems.values.toList()[index].size,
-                              cartItems.values.toList()[index].price,
-                            );
-                          },
-                          onRemove: () {
-                            cart.removeItem(
-                                '${cartItems.values.toList()[index].id}');
-                          },
+                        cart.addToCart(
+                          '${cartItems.values.toList()[index].id}',
+                          '${cartItems.values.toList()[index].name}',
+                          cartItems.values.toList()[index].quantity,
+                          cartItems.values.toList()[index].color,
+                          'http://api.timbu.cloud/images/${cartItems.values.toList()[index].imageUrl}',
+                          cartItems.values.toList()[index].size,
+                          cartItems.values.toList()[index].price,
+                        );
+                      },
+                      onRemove: () {
+                        cart.removeItem(
+                            '${cartItems.values.toList()[index].id}');
+                      },
                       name: cartItems.values.toList()[index].name,
                       color: cartItems.values.toList()[index].color,
                       imageUrl: cartItems.values.toList()[index].imageUrl,
@@ -388,7 +384,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             return Container(
                               height: 0.8.sh,
                               width: 1.sw,
-                              padding: EdgeInsets.all(15.r),
+                              padding: EdgeInsets.only(
+                                left: 15.w,
+                                right: 15.w,
+                                top: 5.h,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.only(
@@ -440,7 +440,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                               'assets/svg/master.svg'),
                                           Gap(10.w),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 '**** **** **** 1234',
@@ -456,12 +457,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                                         AppColors.mainTextColor,
                                                     fontSize: 14),
                                               ),
-                                              
                                             ],
                                           ),
-                                          Expanded(child: SizedBox(),),
+                                          Expanded(
+                                            child: SizedBox(),
+                                          ),
                                           SvgPicture.asset(
-                                                  'assets/svg/breen.svg'),
+                                              'assets/svg/breen.svg'),
                                         ],
                                       ),
                                     ),
@@ -554,11 +556,16 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                     MainButton(
                                       child: Text('Proceed to payment'),
                                       onPressed: () {
-                                        cart.clearCart();
-                                        Navigator.pushNamed(context, SuccessScreen.routeName);
+                                        setState(() {
+                                          cartItems.clear();
+                                        });
+
+                                        Navigator.pushNamed(
+                                            context, SuccessScreen.routeName);
                                       },
                                       width: 1.sw,
                                     ),
+                                    Gap(5.h),
                                   ],
                                 ),
                               ),

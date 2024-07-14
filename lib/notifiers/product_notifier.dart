@@ -25,7 +25,7 @@ class ProductRepository extends ChangeNotifier {
         final fetchedProducts = data['items'] as List;
        
         products = fetchedProducts;
-         debugPrint('products is ${products}');
+         debugPrint('products is ${products[0]['categories'][0]['name']}');
          fetchData = true;
       }
       isLoading = false;

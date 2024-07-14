@@ -54,11 +54,30 @@ class HomeScreenItem extends StatelessWidget {
                 color: AppColors.imageBackgroundColor,
                 borderRadius: BorderRadius.circular(10.r),
               ),
-              child: Center(
-                child: CachedNetworkImage(
-                  imageUrl: 'http://api.timbu.cloud/images/$imageUrl',
-                  height: 120.h,
-                ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    right: 10,
+                    top: 10,
+                    child: Container(
+                      padding: EdgeInsets.all(5.r),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.subTextColor,
+                      ),
+                      child: const Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: CachedNetworkImage(
+                      imageUrl: 'http://api.timbu.cloud/images/$imageUrl',
+                      height: 120.h,
+                    ),
+                  ),
+                ],
               ),
             ),
             Gap(7.h),
@@ -75,6 +94,8 @@ class HomeScreenItem extends StatelessWidget {
             Gap(3.h),
             Row(
               children: [
+                SvgPicture.asset('assets/svg/rating.svg', ),
+                Gap(2.w),
                 Text(
                   '$rating ($unitSold)',
                   style: AppTextStyle.regular(
@@ -177,7 +198,7 @@ class FeaturedItem extends StatelessWidget {
           children: [
             Container(
               height: 200.h,
-              width: 150.h,
+              width: 125.w,
               child: CachedNetworkImage(
                 imageUrl: 'http://api.timbu.cloud/images/$imageUrl',
               ),
@@ -185,11 +206,14 @@ class FeaturedItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  category,
-                  style: AppTextStyle.regular(
-                    color: AppColors.whiteColor,
-                    fontSize: 12.sp,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    category,
+                    style: AppTextStyle.regular(
+                      color: AppColors.whiteColor,
+                      fontSize: 12.sp,
+                    ),
                   ),
                 ),
                 Row(
@@ -211,8 +235,9 @@ class FeaturedItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
+                Gap(10.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 15.w),
                   child: MainButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(
@@ -241,7 +266,7 @@ class FeaturedItem extends StatelessWidget {
                       //   );
                       //   return;
                       // }
-
+                  
                       // cart.addToCart(
                       //   '${product['id']}',
                       //   '${product['name']}',
@@ -260,21 +285,23 @@ class FeaturedItem extends StatelessWidget {
                       //   ),
                       // );
                     },
-                    width: 0.35.sw,
+                    width: 0.3.sw,
+                    backgroundColor: Colors.white,
+                    foregroundColor: AppColors.primaryColor,
                     child: Row(
                       children: [
                         SvgPicture.asset(
                           'assets/svg/basket.svg',
                           height: 23.h,
                           width: 23.h,
-                          color: AppColors.whiteColor,
+                          // color: AppColors.whiteColor,
                         ),
                         Gap(3.w),
                         Text(
                           'Add to Cart',
                           style: AppTextStyle.medium(
-                            color: AppColors.whiteColor,
-                            fontSize: 16.sp,
+                            color: AppColors.primaryColor,
+                            fontSize: 12.sp,
                           ),
                         )
                       ],

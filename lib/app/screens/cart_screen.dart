@@ -93,9 +93,12 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                             );
                           },
                           onRemove: () {
-                            itemValue = cartItems.values.toList()[index].quantity;
-                            cart.removeItem(
-                                '${cartItems.values.toList()[index].id}');
+                            itemValue =
+                                cartItems.values.toList()[index].quantity;
+                            setState(() {
+                              cart.removeItem(
+                                  '${cartItems.values.toList()[index].id}');
+                            });
                           },
                           name: cartItems.values.toList()[index].name,
                           color: cartItems.values.toList()[index].color,

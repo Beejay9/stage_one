@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stage_one/app/constants/app_colors.dart';
 import 'package:stage_one/app/constants/app_text_style.dart';
@@ -63,9 +65,10 @@ class ProductScreen extends ConsumerWidget {
           ),
         ),
         actions: [
-          Icon(
-            Icons.search,
-          ),
+         Padding(
+           padding: EdgeInsets.only(right: 15.w),
+           child: SvgPicture.asset('assets/svg/search-01.svg'),
+         )
         ],
         backgroundColor: Colors.white,
         foregroundColor: AppColors.mainTextColor,
@@ -118,9 +121,9 @@ class ProductScreen extends ConsumerWidget {
             FeaturedItem(
               id: '${products[0]['id']}',
               name: '${products[0]['name']}',
-              category: 'Shoes',
+              category: '${products[0]['categories'][0]['name'].toString().capitalize}' ,
               price: products[0]['current_price']?[0]['NGN'][0] as double,
-              imageUrl: '${products[0]['photos'][0]['url']}',
+              imageUrl: '${products[0]['photos'][0]['url'] ?? ''}',
             ),
             // Gap(15.h),
             Wrap(
@@ -159,7 +162,7 @@ class ProductScreen extends ConsumerWidget {
                     id: '${products[0]['id']}',
                     name: '${products[0]['name']}',
                     imageUrl: '${products[0]['photos'][0]['url']}',
-                    category: 'Shoes',
+                    category: '${products[0]['categories'][0]['name'].toString().capitalize.toString().capitalize}',
                     price: products[0]['current_price']?[0]['NGN'][0] as double,
                     rating: 5.0,
                     unitSold: 200,
@@ -169,7 +172,7 @@ class ProductScreen extends ConsumerWidget {
                   id: '${products[1]['id']}',
                   name: '${products[1]['name']}',
                   imageUrl: '${products[1]['photos'][0]['url']}',
-                  category: 'Shoes',
+                  category: '${products[1]['categories'][0]['name'].toString().capitalize.toString().capitalize.toString().capitalize}',
                   price: products[1]['current_price']?[0]['NGN'][0] as double,
                   rating: 5.0,
                   unitSold: 200,
@@ -183,7 +186,7 @@ class ProductScreen extends ConsumerWidget {
                   id: '${products[2]['id']}',
                   name: '${products[2]['name']}',
                   imageUrl: '${products[2]['photos'][0]['url']}',
-                  category: 'Shoes',
+                  category: '${products[2]['categories'][0]['name'].toString().capitalize.toString().capitalize.toString().capitalize.toString().capitalize}',
                   price: products[2]['current_price']?[0]['NGN'][0] as double,
                   rating: 5.0,
                   unitSold: 200,
@@ -192,7 +195,7 @@ class ProductScreen extends ConsumerWidget {
                   id: '${products[3]['id']}',
                   name: '${products[3]['name']}',
                   imageUrl: '${products[3]['photos'][0]['url']}',
-                  category: 'Shoes',
+                  category: '${products[3]['categories'][0]['name'].toString().capitalize.toString().capitalize.toString().capitalize.toString().capitalize.toString().capitalize}',
                   price: products[3]['current_price']?[0]['NGN'][0] as double,
                   rating: 5.0,
                   unitSold: 200,
@@ -218,7 +221,7 @@ class ProductScreen extends ConsumerWidget {
                   id: '${products[4]['id']}',
                   name: '${products[4]['name']}',
                   imageUrl: '${products[4]['photos'][0]['url']}',
-                  category: 'Shoes',
+                  category: '${products[4]['categories'][0]['name'].toString().capitalize.toString().capitalize.toString().capitalize.toString().capitalize.toString().capitalize.toString().capitalize}',
                   price: products[4]['current_price']?[0]['NGN'][0] as double,
                   rating: 5.0,
                   unitSold: 200,
@@ -227,7 +230,7 @@ class ProductScreen extends ConsumerWidget {
                   id: '${products[9]['id']}',
                   name: '${products[9]['name']}',
                   imageUrl: '${products[9]['photos'][0]['url']}',
-                  category: 'Shoes',
+                  category: '${products[9]['categories'][0]['name'].toString().capitalize}',
                   price: products[9]['current_price']?[0]['NGN'][0] as double,
                   rating: 5.0,
                   unitSold: 200,
@@ -241,17 +244,17 @@ class ProductScreen extends ConsumerWidget {
                   id: '${products[8]['id']}',
                   name: '${products[8]['name']}',
                   imageUrl: '${products[8]['photos'][0]['url']}',
-                  category: 'Shoes',
+                  category: '${products[8]['categories'][0]['name'].toString().capitalize}',
                   price: products[8]['current_price']?[0]['NGN'][0] as double,
                   rating: 5.0,
                   unitSold: 200,
                 ),
                 HomeScreenItem(
-                  id: '${products[1]['id']}',
-                  name: '${products[1]['name']}',
-                  imageUrl: '${products[1]['photos'][0]['url']}',
-                  category: 'Shoes',
-                  price: products[1]['current_price']?[0]['NGN'][0] as double,
+                  id: '${products[7]['id']}',
+                  name: '${products[7]['name']}',
+                  imageUrl: '${products[7]['photos'][0]['url']}',
+                  category: '${products[7]['categories'][0]['name'].toString().capitalize}',
+                  price: products[7]['current_price']?[0]['NGN'][0] as double,
                   rating: 5.0,
                   unitSold: 200,
                 ),
@@ -264,7 +267,7 @@ class ProductScreen extends ConsumerWidget {
                   id: '${products[5]['id']}',
                   name: '${products[5]['name']}',
                   imageUrl: '${products[5]['photos'][0]['url']}',
-                  category: 'Shoes',
+                  category: '${products[5]['categories'][0]['name'].toString().capitalize}',
                   price: products[5]['current_price']?[0]['NGN'][0] as double,
                   rating: 5.0,
                   unitSold: 200,
@@ -273,7 +276,7 @@ class ProductScreen extends ConsumerWidget {
                   id: '${products[6]['id']}',
                   name: '${products[6]['name']}',
                   imageUrl: '${products[6]['photos'][0]['url']}',
-                  category: 'Shoes',
+                  category: '${products[6]['categories'][0]['name'].toString().capitalize}',
                   price: products[6]['current_price']?[0]['NGN'][0] as double,
                   rating: 5.0,
                   unitSold: 200,

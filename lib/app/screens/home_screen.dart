@@ -56,6 +56,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       backgroundColor: Colors.white,
       body: screens[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+         backgroundColor: Colors.white,
         showUnselectedLabels: true,
         unselectedLabelStyle: AppTextStyle.regular(
           color: Colors.black,

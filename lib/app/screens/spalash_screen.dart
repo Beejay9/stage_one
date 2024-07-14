@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stage_one/app/constants/app_colors.dart';
 import 'package:stage_one/app/constants/shared.dart';
 import 'package:stage_one/app/screens/home_screen.dart';
 import 'package:stage_one/app/screens/welcome_screen.dart';
@@ -49,7 +50,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         children: <Widget>[
           Container(
             decoration: const BoxDecoration(
-              color: Colors.cyan,
+              color: AppColors.primaryColor,
             ),
           ),
           const Column(
