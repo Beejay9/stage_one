@@ -94,7 +94,9 @@ class HomeScreenItem extends StatelessWidget {
             Gap(3.h),
             Row(
               children: [
-                SvgPicture.asset('assets/svg/rating.svg', ),
+                SvgPicture.asset(
+                  'assets/svg/rating.svg',
+                ),
                 Gap(2.w),
                 Text(
                   '$rating ($unitSold)',
@@ -163,12 +165,16 @@ class FeaturedItem extends StatelessWidget {
     required this.name,
     required this.category,
     required this.price,
+    required this.colors,
     required this.imageUrl,
+    this.textColor,
   });
   final String id;
   final String name;
   final String category;
   final double price;
+  final List<Color> colors;
+  final Color? textColor;
   final String imageUrl;
 
   @override
@@ -181,14 +187,11 @@ class FeaturedItem extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.all(15.r),
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.all(20.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(
-            colors: [
-              Color(0xff0072C6),
-              Color(0xff003760),
-            ],
+            colors: colors,
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
@@ -204,14 +207,15 @@ class FeaturedItem extends StatelessWidget {
               ),
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     category,
                     style: AppTextStyle.regular(
-                      color: AppColors.whiteColor,
+                      color: textColor ?? AppColors.whiteColor,
                       fontSize: 12.sp,
                     ),
                   ),
@@ -221,7 +225,7 @@ class FeaturedItem extends StatelessWidget {
                     Text(
                       name,
                       style: AppTextStyle.medium(
-                        color: AppColors.whiteColor,
+                        color: textColor ?? AppColors.whiteColor,
                         fontSize: 14.sp,
                       ),
                     ),
@@ -229,7 +233,7 @@ class FeaturedItem extends StatelessWidget {
                     Text(
                       '$getCurrency $price',
                       style: AppTextStyle.medium(
-                        color: AppColors.whiteColor,
+                        color: textColor ?? AppColors.whiteColor,
                         fontSize: 14.sp,
                       ),
                     ),
@@ -266,7 +270,7 @@ class FeaturedItem extends StatelessWidget {
                       //   );
                       //   return;
                       // }
-                  
+
                       // cart.addToCart(
                       //   '${product['id']}',
                       //   '${product['name']}',
@@ -285,22 +289,29 @@ class FeaturedItem extends StatelessWidget {
                       //   ),
                       // );
                     },
-                    width: 0.3.sw,
-                    backgroundColor: Colors.white,
-                    foregroundColor: AppColors.primaryColor,
+                    width: 0.34.sw,
+                    backgroundColor: textColor ?? Colors.white,
+                    foregroundColor: textColor == null
+                        ? AppColors.primaryColor
+                        : Colors.white,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
                           'assets/svg/basket.svg',
                           height: 23.h,
                           width: 23.h,
-                          // color: AppColors.whiteColor,
+                          color: textColor == null
+                                ? AppColors.primaryColor
+                                : Colors.white,
                         ),
                         Gap(3.w),
                         Text(
                           'Add to Cart',
                           style: AppTextStyle.medium(
-                            color: AppColors.primaryColor,
+                            color: textColor == null
+                                ? AppColors.primaryColor
+                                : Colors.white,
                             fontSize: 12.sp,
                           ),
                         )

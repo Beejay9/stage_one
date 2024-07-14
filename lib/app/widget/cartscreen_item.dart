@@ -19,6 +19,7 @@ class CartScreenItem extends StatelessWidget {
     required this.onDecrease,
     required this.onIncrease,
     required this.onRemove,
+    this.isCheckout = false,
   });
   final String name;
   final Color color;
@@ -26,6 +27,7 @@ class CartScreenItem extends StatelessWidget {
   final double price;
   final int quantity;
   final int size;
+  final bool isCheckout;
   final void Function()? onDecrease;
   final void Function()? onIncrease;
   final void Function()? onRemove;
@@ -91,14 +93,38 @@ class CartScreenItem extends StatelessWidget {
                     ),
                     // child: Text('$e'),
                   ),
-                  // Text(color),
-                  Gap(3),
-                  Divider(
-                    color: AppColors.subTextColor,
-                    thickness: 2,
+                  Text(
+                    'Blue',
+                    style: AppTextStyle.regular(
+                      color: AppColors.subTextColor,
+                    ),
                   ),
-                  Gap(3),
-                  Text('$size'),
+                  Gap(7.w),
+                  SvgPicture.asset('assets/svg/line.svg'),
+                  Gap(7.w),
+                  Text(
+                    'Size',
+                    style: AppTextStyle.regular(
+                        color: AppColors.mainTextColor, fontSize: 15),
+                  ),
+                  Gap(3.w),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 5.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.imageBackgroundColor,
+                      borderRadius: BorderRadius.circular(5.r),
+                    ),
+                    child: Text(
+                      '$size',
+                      style: AppTextStyle.regular(
+                        color: AppColors.mainTextColor,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Gap(10.h),
@@ -106,22 +132,26 @@ class CartScreenItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 0.25.sw,
+                    width: !isCheckout ? 0.25.sw : null,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 8.r,
-                      vertical: 8.h,
+                      horizontal: isCheckout ? 10.w : 8.w,
+                      vertical: isCheckout ? 5.h : 8.h,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.imageBackgroundColor,
+                      color: isCheckout
+                          ? Color.fromARGB(255, 203, 230, 249)
+                          : AppColors.imageBackgroundColor,
                       borderRadius: BorderRadius.circular(5.r),
                     ),
                     child: Row(
+                      // mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                          onTap: onDecrease,
-                          child: Icon(Icons.remove),
-                        ),
+                        if (!isCheckout)
+                          GestureDetector(
+                            onTap: onDecrease,
+                            child: Icon(Icons.remove),
+                          ),
                         Text(
                           '$quantity',
                           style: AppTextStyle.regular(
@@ -129,17 +159,20 @@ class CartScreenItem extends StatelessWidget {
                             fontSize: 14.sp,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: onIncrease,
-                          child: Icon(
-                            Icons.add,
-                            weight: 0.5,
+                        if (!isCheckout)
+                          GestureDetector(
+                            onTap: onIncrease,
+                            child: Icon(
+                              Icons.add,
+                              weight: 0.5,
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
                   Gap(10.w),
+                  SvgPicture.asset('assets/svg/line.svg'),
+                  Gap(7.w),
                   Text(
                     ' $getCurrency $price',
                     style: AppTextStyle.medium(
@@ -151,10 +184,11 @@ class CartScreenItem extends StatelessWidget {
               )
             ],
           ),
-          GestureDetector(
-            onTap: onRemove,
-            child: SvgPicture.asset('assets/svg/cancel.svg'),
-          )
+          if (!isCheckout)
+            GestureDetector(
+              onTap: onRemove,
+              child: SvgPicture.asset('assets/svg/cancel.svg'),
+            )
         ],
       ),
     );

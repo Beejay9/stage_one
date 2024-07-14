@@ -56,16 +56,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       backgroundColor: Colors.white,
       body: screens[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        unselectedItemColor: AppColors.subTextColor,
+
          backgroundColor: Colors.white,
         showUnselectedLabels: true,
         unselectedLabelStyle: AppTextStyle.regular(
           color: Colors.black,
         ),
-        unselectedFontSize: 14,
-        selectedFontSize: 14,
+        unselectedFontSize: 12,
+        selectedFontSize: 12,
+        selectedLabelStyle: AppTextStyle.regular(
+          color: Colors.black,
+        ),
         showSelectedLabels: true,
-        unselectedIconTheme: IconThemeData(),
-        selectedIconTheme: IconThemeData(),
+        unselectedIconTheme: IconThemeData(color: AppColors.subTextColor),
+        selectedIconTheme: IconThemeData(color: AppColors.primaryColor),
         currentIndex: selectedIndex,
         onTap: selectScreen,
         selectedItemColor: AppColors.primaryColor,

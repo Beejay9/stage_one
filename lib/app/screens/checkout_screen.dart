@@ -57,15 +57,45 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 15.w,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Order List',
+                      style: AppTextStyle.medium(
+                        color: AppColors.mainTextColor,
+                        fontSize: 17.sp,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Edit',
+                        style: AppTextStyle.medium(
+                          color: AppColors.primaryColor,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               SizedBox(
-                height: 0.8.sh,
+                height: cartItems.values.toList().length > 2? 0.7.sh :0.4.sh,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: ListView.builder(
                     itemCount: cartItems.values.toList().length,
                     itemBuilder: (context, index) => CartScreenItem(
+                      isCheckout: true,
                       onDecrease: () {
-                        if (itemValue == 0) {
+                        if (cartItems.values.toList()[index].quantity== 1) {
                           return;
                         }
                         itemValue = cartItems.values.toList()[index].quantity;
@@ -303,7 +333,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                           ),
                         ),
                         Text(
-                          '$getCurrency 1,000',
+                          '$getCurrency 2,000',
                           style: AppTextStyle.medium(
                             color: AppColors.mainTextColor,
                             fontSize: 12.sp,
@@ -343,7 +373,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                           ),
                         ),
                         Text(
-                          '$getCurrency ${cart.totalAmount}',
+                          '$getCurrency ${cart.totalAmount + 2000}',
                           style: AppTextStyle.medium(
                             color: AppColors.mainTextColor,
                             fontSize: 12.sp,
@@ -360,19 +390,24 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(10.r),
-                      decoration: BoxDecoration(
-                        color: AppColors.imageBackgroundColor,
-                        borderRadius: BorderRadius.circular(
-                          5.r,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10.r),
+                        decoration: BoxDecoration(
+                          color: AppColors.imageBackgroundColor,
+                          borderRadius: BorderRadius.circular(
+                            5.r,
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Cancel',
-                        style: AppTextStyle.regular(
-                          color: AppColors.mainTextColor,
-                          fontSize: 14,
+                        child: Text(
+                          'Cancel',
+                          style: AppTextStyle.regular(
+                            color: AppColors.mainTextColor,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
@@ -557,7 +592,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                       child: Text('Proceed to payment'),
                                       onPressed: () {
                                         setState(() {
-                                          cartItems.clear();
+                                          cart.clearCart();
                                         });
 
                                         Navigator.pushNamed(

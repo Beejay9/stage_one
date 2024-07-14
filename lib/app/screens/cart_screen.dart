@@ -56,9 +56,11 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                       )
                     : ListView.builder(
                         itemCount: cartItems.values.toList().length,
-                        itemBuilder: (context, index) => CartScreenItem(
+                        itemBuilder: (context, index) {
+                          itemValue = cartItems.values.toList()[index].quantity;
+                          return CartScreenItem(
                           onDecrease: () {
-                            if (itemValue == 0) {
+                            if (itemValue == 1) {
                               return;
                             }
                             itemValue =
@@ -105,9 +107,9 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                           imageUrl:
                               '${cartItems.values.toList()[index].imageUrl}',
                           price: cartItems.values.toList()[index].price,
-                          quantity: cartItems.values.toList()[index].quantity,
+                          quantity: itemValue,
                           size: cartItems.values.toList()[index].size,
-                        ),
+                        );}
                       ),
               ),
             ),

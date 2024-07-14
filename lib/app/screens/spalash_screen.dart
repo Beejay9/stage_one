@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stage_one/app/constants/app_colors.dart';
+import 'package:stage_one/app/constants/app_text_style.dart';
+import 'package:stage_one/app/constants/main_button.dart';
 import 'package:stage_one/app/constants/shared.dart';
 import 'package:stage_one/app/screens/home_screen.dart';
 import 'package:stage_one/app/screens/welcome_screen.dart';
@@ -18,6 +21,8 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  bool failedReqest = false;
+  bool isLoading = false;
   @override
   void initState() {
     Timer(
@@ -25,17 +30,29 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       () async {
         bool seenIntro = await Shared.getSeenIntro() ?? false;
         if (seenIntro) {
-          await ref.read(productsProvider.notifier).fetchProduct();
+          final result =
+              await ref.read(productsProvider.notifier).fetchProduct();
           await ref.read(userProvider.notifier).setUserDetails();
-          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          if (result) {
+            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          } else {
+            setState(() {
+              failedReqest = true;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'An error occured. Please check your internet and try again',
+                ),
+              ),
+            );
+          }
         } else {
           await Shared.setSeenIntro(true);
           Navigator.of(context).pushReplacementNamed(
             WelcomeScreen.routeName,
           );
         }
-        
-        
       },
     );
     super.initState();
@@ -53,7 +70,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               color: AppColors.primaryColor,
             ),
           ),
-          const Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               SizedBox(
@@ -67,13 +84,52 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     Center(
                       child: Text(
                         'Shop App',
-                        style: TextStyle(
+                        style: AppTextStyle.bold(
                           color: Colors.white,
                           fontSize: 28,
-                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
+                    if (failedReqest)
+                      MainButton(
+                        backgroundColor: Colors.white,
+                        foregroundColor: AppColors.primaryColor,
+                        onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          final result = await ref
+                              .read(productsProvider.notifier)
+                              .fetchProduct();
+                          setState(() {
+                            isLoading = false;
+                          });
+                          if (result) {
+                            setState(() {
+                              failedReqest = false;
+                            });
+                            Navigator.of(context)
+                                .pushReplacementNamed(HomeScreen.routeName);
+                          } else {
+                            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'An error occured. Please check your internet and try again',
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        width: 0.5.sw,
+                        child: isLoading
+                            ? const CircularProgressIndicator(
+                              color: AppColors.primaryColor,
+                            )
+                            : Text(
+                                'Try Again',
+                              ),
+                      )
                   ],
                 ),
               ),

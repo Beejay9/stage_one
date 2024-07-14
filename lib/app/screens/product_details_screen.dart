@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stage_one/app/constants/app_colors.dart';
 import 'package:stage_one/app/constants/app_text_style.dart';
@@ -88,10 +89,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   horizontal: 15.w,
                 ),
                 child: Text(
-                  'Shoes',
+                  '${product['categories'][0]['name'].toString().capitalize}',
                   style: AppTextStyle.regular(
                     color: AppColors.mainTextColor,
-                    fontSize: 12.sp,
+                    fontSize: 14.sp,
                   ),
                 ),
               ),
@@ -116,9 +117,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                           isFav = !isFav;
                         });
                       },
-                      child: Icon(
-                        isFav ? Icons.favorite : Icons.favorite_border,
-                      ),
+                      child: SvgPicture.asset('assets/svg/fav.svg'),
                     ),
                   ],
                 ),
@@ -136,20 +135,34 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   ),
                 ),
               ),
-              Gap(7.h),
+              Gap(10.h),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 15.w,
                 ),
-                child: Text(
-                  '100 4.5(54 reviews)',
-                  style: AppTextStyle.regular(
-                    color: AppColors.mainTextColor,
-                    fontSize: 12.sp,
-                  ),
+                child: Row(
+                  children: [
+                    Text(
+                      '100 sold',
+                      style: AppTextStyle.regular(
+                        color: AppColors.descriptionColor,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                    Gap(7.w),
+                    SvgPicture.asset('assets/svg/rating.svg'),
+                    Gap(2.w),
+                    Text(
+                      '4.5 (54 reviews)',
+                      style: AppTextStyle.regular(
+                        color: AppColors.descriptionColor,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Gap(7.h),
+              Gap(10.h),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 15.w,
@@ -175,7 +188,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   ),
                 ),
               ),
-              // Gap(5.h),
+              Gap(7.h),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 15.w,
@@ -290,7 +303,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       .toList(),
                 ),
               ),
-              Gap(5.h),
+              Gap(10.h),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 15.w,
@@ -388,6 +401,21 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   style: AppTextStyle.bold(
                     color: AppColors.mainTextColor,
                     fontSize: 24.sp,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 15.w,
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'No other products at the moment',
+                    style: AppTextStyle.regular(
+                      color: AppColors.mainTextColor,
+                      fontSize: 17.sp,
+                    ),
                   ),
                 ),
               ),
@@ -491,176 +519,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-// class ProductDetailsScreen extends ConsumerWidget {
-
-// }
-
-class ShoeSizes extends StatefulWidget {
-  ShoeSizes({
-    Key? key,
-    required this.index,
-  }) : super(key: key);
-
-  int index;
-
-  @override
-  State<ShoeSizes> createState() => _ShoeSizesState();
-}
-
-class _ShoeSizesState extends State<ShoeSizes> {
-  // int index = 0;
-  final List sizes = [
-    32,
-    35,
-    38,
-    39,
-    40,
-    42,
-    45,
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        TextButton(
-          onPressed: () {
-            setState(() {
-              widget.index = 1;
-            });
-          },
-          style: TextButton.styleFrom(
-            shape: const CircleBorder(),
-            side: const BorderSide(color: Colors.grey),
-            backgroundColor: widget.index == 1
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.onPrimary,
-            foregroundColor: widget.index == 1 ? Colors.white : Colors.grey,
-          ),
-          child: const Text(
-            '32',
-            // style: TextStyle(color: Colors.grey),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            setState(() {
-              widget.index = 2;
-            });
-          },
-          style: TextButton.styleFrom(
-            shape: const CircleBorder(),
-            side: const BorderSide(color: Colors.grey),
-            backgroundColor: widget.index == 2
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.onPrimary,
-            foregroundColor: widget.index == 2 ? Colors.white : Colors.grey,
-          ),
-          child: const Text(
-            '35',
-            // style: TextStyle(color: Colors.grey),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            setState(() {
-              widget.index = 3;
-            });
-          },
-          style: TextButton.styleFrom(
-            shape: const CircleBorder(),
-            side: const BorderSide(color: Colors.grey),
-            backgroundColor: widget.index == 3
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.onPrimary,
-            foregroundColor: widget.index == 3 ? Colors.white : Colors.grey,
-          ),
-          child: const Text(
-            '38',
-            // style: TextStyle(color: Colors.grey),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            setState(() {
-              widget.index = 4;
-            });
-          },
-          style: TextButton.styleFrom(
-            shape: const CircleBorder(),
-            side: const BorderSide(color: Colors.grey),
-            backgroundColor: widget.index == 4
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.onPrimary,
-            foregroundColor: widget.index == 4 ? Colors.white : Colors.grey,
-          ),
-          child: const Text(
-            '39',
-            // style: TextStyle(color: Colors.grey),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            setState(() {
-              widget.index = 5;
-            });
-          },
-          style: TextButton.styleFrom(
-            shape: const CircleBorder(),
-            side: const BorderSide(color: Colors.grey),
-            backgroundColor: widget.index == 5
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.onPrimary,
-            foregroundColor: widget.index == 5 ? Colors.white : Colors.grey,
-          ),
-          child: const Text(
-            '40',
-            // style: TextStyle(color: Colors.grey),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            setState(() {
-              widget.index = 5;
-            });
-          },
-          style: TextButton.styleFrom(
-            shape: const CircleBorder(),
-            side: const BorderSide(color: Colors.grey),
-            backgroundColor: widget.index == 5
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.onPrimary,
-            foregroundColor: widget.index == 5 ? Colors.white : Colors.grey,
-          ),
-          child: const Text(
-            '42',
-            // style: TextStyle(color: Colors.grey),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            setState(() {
-              widget.index = 5;
-            });
-          },
-          style: TextButton.styleFrom(
-            shape: const CircleBorder(),
-            side: const BorderSide(color: Colors.grey),
-            backgroundColor: widget.index == 5
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).colorScheme.onPrimary,
-            foregroundColor: widget.index == 5 ? Colors.white : Colors.grey,
-          ),
-          child: const Text(
-            '45',
-            // style: TextStyle(color: Colors.grey),
-          ),
-        ),
-      ],
     );
   }
 }

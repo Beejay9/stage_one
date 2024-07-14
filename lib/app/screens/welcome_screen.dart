@@ -219,14 +219,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                         '${initialValues['number']}');
                                     await Shared.setUserCity(
                                         '${initialValues['address']}');
-                                    await ref
+                                    final result = await ref
                                         .read(productsProvider.notifier)
                                         .fetchProduct();
                                     hasPressed.value = false;
-                                    await ref.read(userProvider.notifier).setUserDetails();
-                                    Navigator.of(context).pushReplacementNamed(
-                                      HomeScreen.routeName,
-                                    );
+                                    await ref
+                                        .read(userProvider.notifier)
+                                        .setUserDetails();
+                                    if (result) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                        HomeScreen.routeName,
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .removeCurrentSnackBar();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'An error occured. Please check your internet and try again',
+                                          ),
+                                        ),
+                                      );
+                                    }
                                   },
                             width: MediaQuery.of(context).size.width,
                             child: value
